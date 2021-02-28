@@ -1,0 +1,41 @@
+server:
+  port: 40004
+spring:
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: baidu_route
+        #匹配到之后,映射到该路径
+        uri: http://baidu.com/
+        #匹配规则
+        predicates:
+        - Path=/baidu
+        - Method=GET
+        filters:
+        #将最终路径后的/baidu去掉
+        - RewritePath=/baidu, /
+        #访问http://127.0.0.1:40004/baidu 可以成功去除前缀/baidu，转到http://www.baidu.com
+        #StripPrefix参数表示在将请求发送到下游之前从请求中剥离的路径个数。
+        - StripPrefix=2
+#      - id: hystrix_route
+#        uri: https://www.bilibili.com/
+#        predicates:
+#        - Path=/test/hystrix
+#        filters:
+#        - RewritePath=/test, /
+#        - name: hystrix # Hystrix Filter的名称
+#          args: # Hystrix配置参数
+#            name: fallbackcmd # HystrixCommand的名字
+#            fallbackUri: forward:/fallback # fallback对应的uri
+#            fallbackUri: http://127.0.0.1:40004/fallback # fallback对应的uri
+#Hystrix的fallbackcmd的时间
+#hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 1000
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
