@@ -68,7 +68,7 @@ public class RouteController {
         definition.setUri(uri);
 
         List<FilterDefinition> filters = new ArrayList<>();
-        for(GatewayFilter filterDefinition : route.getFilters()){
+        for (GatewayFilter filterDefinition : route.getFilters()) {
             FilterDefinition filterDefinition1 = new FilterDefinition();
             filterDefinition1.setArgs(filterDefinition.getArgs());
             filterDefinition1.setName(filterDefinition.getName());

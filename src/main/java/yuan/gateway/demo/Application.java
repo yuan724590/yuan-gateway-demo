@@ -19,7 +19,7 @@ import java.time.ZonedDateTime;
 @SpringBootApplication
 public class Application {
 
-//通过代码设置映射
+    //通过代码设置映射
     @Bean
     public RouteLocator testRouteLocator(RouteLocatorBuilder builder) {
         //生成比当前时间早2天的UTC时间
@@ -61,22 +61,22 @@ public class Application {
                  * 参数name=yuan
                  * 127.0.0.1:40004?authToken=1&name=yuan
                  */
-                .route("query", r -> r.query("name","yuan")
+                .route("query", r -> r.query("name", "yuan")
                         .uri("http://baidu.com"))
                 /**
                  * 访问http://127.0.0.1:40004/test/head
                  *  这里强制为请求增加了两个header头
                  */
                 .route("add_request_header_route", r -> r.path("/test/head")
-                    .filters(f -> {
-                        f.addRequestHeader("X-Request", "aa");
-                        f.addRequestParameter("hello", "ValueB");
-                        //进行重试
-                        f.retry(config -> config.setRetries(2).setStatuses(HttpStatus.INTERNAL_SERVER_ERROR));
-                        f.rewritePath("test", "bb");
-                        return f;
-                    })
-                    .uri("http://127.0.0.1:40003/test/head"))
+                        .filters(f -> {
+                            f.addRequestHeader("X-Request", "aa");
+                            f.addRequestParameter("hello", "ValueB");
+                            //进行重试
+                            f.retry(config -> config.setRetries(2).setStatuses(HttpStatus.INTERNAL_SERVER_ERROR));
+                            f.rewritePath("test", "bb");
+                            return f;
+                        })
+                        .uri("http://127.0.0.1:40003/test/head"))
                 /**
                  * 访问http://127.0.0.1:40004/foo/cache/sethelp/help.html
                  *  这里相当于去掉前缀foo，
